@@ -25,22 +25,22 @@ import utils "github.com/jritsema/gotoolbox"
 
 func main() {
 
-  s := []string{"a","b","c"}
-  if utils.SliceContains(&s, "b") {
-    fmt.Println("b exists")
-  }
+	s := []string{"a", "b", "c"}
+	if utils.SliceContains(&s, "b") {
+		fmt.Println("b exists")
+	}
 
-  err := utils.Retry(3, 1, func() error {
-    return callBrittleAPI()
-  })
-  if err != nil {
-    fmt.Println("callBrittleAPI failed after 3 retries: %w", err)
-  }
+	err := utils.Retry(3, 1, func() error {
+		return callBrittleAPI()
+	})
+	if err != nil {
+		fmt.Println("callBrittleAPI failed after 3 retries: %w", err)
+	}
 
-  config, err := utils.ReadJSONFile("config.json")
-  if err != nil {
-    fmt.Println("error reading json file: %w", err)
-  }
+	config, err := utils.ReadJSONFile("config.json")
+	if err != nil {
+		fmt.Println("error reading json file: %w", err)
+	}
 }
 ```
 
@@ -52,7 +52,7 @@ package main
 import "github.com/jritsema/gotoolbox/web"
 
 type Data struct {
-  Hello string `json:"hello"`
+	Hello string `json:"hello"`
 }
 
 func hello(r *http.Request) *web.Response {
