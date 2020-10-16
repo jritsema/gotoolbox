@@ -6,9 +6,10 @@ A kitchen sink of Go tools that I've found useful. Uses only the standard librar
 
 - [super lightweight http server framework](web)
 - [exponential backoff retry](retry.go)
-- [working with json](json.go)
+- [working with JSON](json.go)
 - [working with the file system](fs.go)
 - [working with slices](slice.go)
+- [working with CLIs](cli.go)
 
 ### example usage
 
