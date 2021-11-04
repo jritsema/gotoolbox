@@ -116,3 +116,8 @@ func DataJSON(status int, v interface{}, headers Headers) *Response {
 		Headers:     headers,
 	}
 }
+
+//Empty returns an empty http response
+func Empty(status int) *Response {
+	return Data(status, []byte(""), nil)
+}
