@@ -22,3 +22,14 @@ func SliceContainsLike(s *[]string, e string) bool {
 	}
 	return false
 }
+
+//SliceContainsInt returns true if a slice contains an int
+func SliceContainsInt(i *[]int, e int) bool {
+	for _, item := range *i {
+		if item == e {
+			return true
+		}
+	}
+	return false
+}
+
