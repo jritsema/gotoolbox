@@ -17,30 +17,41 @@ A kitchen sink of Go tools that I've found useful. Uses only the standard librar
 go get github.com/jritsema/gotoolbox
 ```
 
-### utils
+### utilities
 
 ```go
 package main
 
-import utils "github.com/jritsema/gotoolbox"
+import "github.com/jritsema/gotoolbox"
 
 func main() {
 
 	s := []string{"a", "b", "c"}
-	if utils.SliceContains(&s, "b") {
+	if gotoolbox.SliceContainsLike(&s, "b") {
 		fmt.Println("b exists")
 	}
 
-	err := utils.Retry(3, 1, func() error {
+	err := gotoolbox.Retry(3, 1, func() error {
 		return callBrittleAPI()
 	})
 	if err != nil {
 		fmt.Println("callBrittleAPI failed after 3 retries: %w", err)
 	}
 
-	config, err := utils.ReadJSONFile("config.json")
+	f := "config.json"
+	if !gotoolbox.IsDirectory(f) && gotoolbox.FileExists(f) {
+		config, err := gotoolbox.ReadJSONFile(f)
+		if err != nil {
+			fmt.Println("error reading json file: %w", err)
+		}
+	}
+
+	value := gotoolbox.GetEnvWithDefault("MY_ENVVAR", "true")
+
+	command := exec.Command("docker", "build", "-t", "foo", ".")
+	err = gotoolbox.ExecCmd(command, true)
 	if err != nil {
-		fmt.Println("error reading json file: %w", err)
+		fmt.Println("error executing command: %w", err)
 	}
 }
 ```

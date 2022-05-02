@@ -17,11 +17,16 @@ func GetEnvWithDefault(key, defaultValue string) string {
 }
 
 //ExecCmd executes a command and waits
-func ExecCmd(cmd *exec.Cmd) error {
+func ExecCmd(cmd *exec.Cmd, output bool) error {
 
 	var outbuf, errbuf bytes.Buffer
 	cmd.Stdout = &outbuf
 	cmd.Stderr = &errbuf
+
+	if output {
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
+	}
 
 	err := cmd.Start()
 	if err != nil {
