@@ -1,4 +1,3 @@
 module github.com/jritsema/gotoolbox
 
-go 1.15
-
+go 1.18
