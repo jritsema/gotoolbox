@@ -4,7 +4,7 @@ A kitchen sink of Go tools that I've found useful. Uses only the standard librar
 
 ### contents
 
-- [super lightweight http server framework](web)
+- [super lightweight http server library](web)
 - [exponential backoff retry](retry.go)
 - [working with JSON](json.go)
 - [working with the file system](fs.go)
@@ -53,27 +53,48 @@ func main() {
 	if err != nil {
 		fmt.Println("error executing command: %w", err)
 	}
+
+	var data interface{}
+	err = gotoolbox.HttpGetJSON("https://api.example.com/data.json", &data)
+	err = gotoolbox.HttpPostJSON("https://api.example.com/data.json", data, http.StatusOK)
 }
 ```
 
-#### web framework
+#### web package
 
 ```go
 package main
 
-import "github.com/jritsema/gotoolbox/web"
+import (
+	"embed"
+	"html/template"
+	"net/http"
+	"github.com/jritsema/gotoolbox/web"
+)
+
+var (
+	//go:embed all:templates/*
+	templateFS embed.FS
+	html *template.Template
+)
 
 type Data struct {
 	Hello string `json:"hello"`
 }
 
-func hello(r *http.Request) *web.Response {
+func index(r *http.Request) *web.Response {
+	return HTML(http.StatusOK, html, "index.html", Data{Hello: "world"}, nil)
+}
+
+func api(r *http.Request) *web.Response {
 	return web.DataJSON(http.StatusOK, Data{Hello: "world"}, nil)
 }
 
 func main() {
+	html, _ = web.TemplateParseFSRecursive(templateFS, ".html", true, nil)
 	mux := http.NewServeMux()
-	mux.Handle("/hello", web.Action(hello))
+	mux.Handle("/api", web.Action(api))
+	mux.Handle("/", web.Action(index))
 	http.ListenAndServe(":8080", mux)
 }
 ```
