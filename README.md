@@ -83,7 +83,7 @@ type Data struct {
 }
 
 func index(r *http.Request) *web.Response {
-	return HTML(http.StatusOK, html, "index.html", Data{Hello: "world"}, nil)
+	return web.HTML(http.StatusOK, html, "index.html", Data{Hello: "world"}, nil)
 }
 
 func api(r *http.Request) *web.Response {
