@@ -56,7 +56,11 @@ func main() {
 
 	var data interface{}
 	err = gotoolbox.HttpGetJSON("https://api.example.com/data.json", &data)
-	err = gotoolbox.HttpPostJSON("https://api.example.com/data.json", data, http.StatusOK)
+
+	err = gotoolbox.HttpPutJSON("https://api.example.com/data.json", data)
+
+	var res Response
+	err = gotoolbox.HttpPostJSON("https://api.example.com/data.json", data, &res, http.StatusCreated)
 }
 ```
 
