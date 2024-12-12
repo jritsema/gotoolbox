@@ -127,6 +127,17 @@ func Empty(status int) *Response {
 	return Data(status, []byte(""), nil)
 }
 
+// Sends an HTTP 302 redirect
+func Redirect(location string) *Response {
+	return &Response{
+		Status:  http.StatusFound,
+		Content: bytes.NewBuffer(nil),
+		Headers: map[string]string{
+			"Location": location,
+		},
+	}
+}
+
 // HTML renders an html template to a web response
 func HTML(status int, t *template.Template, template string, data interface{}, headers Headers) *Response {
 
